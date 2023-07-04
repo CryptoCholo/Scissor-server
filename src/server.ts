@@ -9,36 +9,37 @@ import limiter from './utils/rateLimiter'
 import router from "./routes/urlRoutes";
 import './database/mongoDB';
 
-
-
-
-// Import your user model and passport strategies
-import  User  from './models/User';
 // import './config/passport';
 
 const PORT = Number(process.env.PORT);
-
 
 const app : Express = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(
   session({
-    secret: 'your-secret-key',
+    secret: process.env.SESSION_KEY,
     resave: false,
     saveUninitialized: false,
   })
 );
 app.use(
     cors({
-      origin: [process.env.CLIENT_URL!, "http://localhost:5173"],
+      origin: [process.env.CLIENT_URL],
     })
 );
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  next();
+  });
+  
 app.use(limiter)
-app.use(passport.initialize());
-app.use(passport.session());
 app.use(router);
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
@@ -52,10 +53,6 @@ app.get("/", (req: Request, res: Response, next: NextFunction) => {
 });
 
 
-// if (process.env.NODE_ENV !== 'test') {
 app.listen(PORT, () => {
   console.log(`your application is running on ${process.env.HOST}:${process.env.PORT}`);
 });
-//   } else {
-//     module.exports = app;
-// }

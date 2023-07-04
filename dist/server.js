@@ -42,17 +42,22 @@ const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: false }));
 app.use((0, cookie_parser_1.default)());
+app.use(passport_1.default.initialize());
+app.use(passport_1.default.session());
 app.use((0, express_session_1.default)({
-    secret: 'your-secret-key',
+    secret: process.env.SESSION_KEY,
     resave: false,
     saveUninitialized: false,
 }));
 app.use((0, cors_1.default)({
-    origin: [process.env.CLIENT_URL, "http://localhost:5173"],
+    origin: [process.env.CLIENT_URL],
 }));
+app.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    next();
+});
 app.use(rateLimiter_1.default);
-app.use(passport_1.default.initialize());
-app.use(passport_1.default.session());
 app.use(urlRoutes_1.default);
 app.use((err, req, res, next) => {
     res.status(500).json({ message: err.message });
@@ -61,10 +66,6 @@ app.use((err, req, res, next) => {
 app.get("/", (req, res, next) => {
     res.json({ hi: "There" });
 });
-// if (process.env.NODE_ENV !== 'test') {
 app.listen(PORT, () => {
     console.log(`your application is running on ${process.env.HOST}:${process.env.PORT}`);
 });
-//   } else {
-//     module.exports = app;
-// }

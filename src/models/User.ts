@@ -1,11 +1,12 @@
 import mongoose, { Schema, Document } from "mongoose";
 import bcrypt from 'bcrypt';
 
-export interface IUser extends Document {
+interface IUser extends Document {
     firstname: string;
     lastname: string;
     username: string;
-    password: any
+    password: any,
+    isValidPassword(password: string): Promise<boolean>;
 }
 
 
@@ -39,4 +40,4 @@ UserSchema.methods.isValidPassword = async function(password : string) {
 
 const User = mongoose.model<IUser>('User', UserSchema);
 
-export default User;
+export {User, IUser} ;

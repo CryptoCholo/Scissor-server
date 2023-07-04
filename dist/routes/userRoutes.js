@@ -40,7 +40,7 @@ const passport_1 = __importDefault(require("passport"));
 const AuthController = __importStar(require("../controllers/userController"));
 // import { signUpValidator, loginValidator } from '../validators/user.validator.js';
 const authRouter = express_1.default.Router();
-authRouter.post('/signup', passport_1.default.authenticate('signup', { session: false }), AuthController.signup);
+// authRouter.post('/signup', passport.authenticate('signup', { session: false }), AuthController.signup);
 authRouter.post('/login', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     return passport_1.default.authenticate('login', (err, user, info) => {
         AuthController.login(req, res, { err, user, info });

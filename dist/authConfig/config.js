@@ -40,7 +40,7 @@ dotenv.config();
 /* eslint-disable no-undef */
 const passport_1 = __importDefault(require("passport"));
 const passport_local_1 = require("passport-local");
-const User_1 = __importDefault(require("../models/User"));
+const User_1 = require("../models/User");
 const passport_jwt_1 = require("passport-jwt");
 const passport_jwt_2 = require("passport-jwt");
 passport_1.default.use(new passport_jwt_1.Strategy({
@@ -49,7 +49,7 @@ passport_1.default.use(new passport_jwt_1.Strategy({
 }, (token, done) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = token.user._id;
-        const user = yield User_1.default.findById(id);
+        const user = yield User_1.User.findById(id);
         if (!user) {
             return done(null, false, { message: 'User not found' });
         }
@@ -66,9 +66,9 @@ passport_1.default.use('signup', new passport_local_1.Strategy({
 }, (req, username, password, done) => __awaiter(void 0, void 0, void 0, function* () {
     let info = req.body;
     try {
-        const userExists = yield User_1.default.findOne({ username });
+        const userExists = yield User_1.User.findOne({ username });
         if (!userExists) {
-            const user = yield User_1.default.create({ first_name: info.first_name, last_name: info.last_name, phone: info.phone, username, password });
+            const user = yield User_1.User.create({ first_name: info.first_name, last_name: info.last_name, phone: info.phone, username, password });
             return done(null, user, { message: 'User created successfully' });
         }
         return done(null, false, { message: 'User already exists' });
@@ -84,7 +84,7 @@ passport_1.default.use('login', new passport_local_1.Strategy({
     passReqToCallback: true
 }, (req, username, password, done) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const user = yield User_1.default.findOne({ username });
+        const user = yield User_1.User.findOne({ username });
         if (!user) {
             return done(null, false, { message: 'User not found' });
         }

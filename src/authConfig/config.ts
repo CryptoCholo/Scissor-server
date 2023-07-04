@@ -4,7 +4,7 @@ dotenv.config();
 /* eslint-disable no-undef */
 import  passport from 'passport';
 import { Strategy as localStrategy } from 'passport-local';
-import User from '../models/User';
+import { User, IUser } from '../models/User';
 import { Strategy as JWTstrategy } from 'passport-jwt';
 import { ExtractJwt as ExtractJWT} from 'passport-jwt';
 
@@ -74,7 +74,7 @@ passport.use(
     },
     async (req, username, password, done) => {
       try {
-        const user = await User.findOne({ username });
+        const user : IUser = await User.findOne({ username });
           
 
           if (!user) {

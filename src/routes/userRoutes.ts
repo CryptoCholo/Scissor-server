@@ -9,7 +9,7 @@ import   * as AuthController  from '../controllers/userController';
 
 const authRouter = express.Router();
 
-authRouter.post('/signup', passport.authenticate('signup', { session: false }), AuthController.signup);
+// authRouter.post('/signup', passport.authenticate('signup', { session: false }), AuthController.signup);
   
 
 authRouter.post('/login', async (req, res, next) => passport.authenticate('login', (err : string, user: IUser, info: string) => {
