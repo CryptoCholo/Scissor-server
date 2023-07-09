@@ -36,9 +36,9 @@ const rateLimiter_1 = __importDefault(require("./utils/rateLimiter"));
 const urlRoutes_1 = __importDefault(require("./routes/urlRoutes"));
 const userRoutes_1 = __importDefault(require("./routes/userRoutes"));
 const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
-const swagger_json_1 = __importDefault(require("./utils/swagger.json"));
 require("./database/mongoDB");
 require("./authConfig/config");
+const swaggerDocument = require('../swagger.json');
 const PORT = Number(process.env.PORT);
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
@@ -56,7 +56,7 @@ app.use((0, cors_1.default)({
     allowedHeaders: 'Content-Type, Authorization',
 }));
 app.use(rateLimiter_1.default);
-app.use('/api-docs', swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swagger_json_1.default));
+app.use('/api-docs', swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swaggerDocument));
 app.use('/auth', userRoutes_1.default);
 app.use('/urls', urlRoutes_1.default);
 app.get("/", (req, res, next) => {

@@ -9,7 +9,6 @@ import limiter from './utils/rateLimiter'
 import urlRouter from "./routes/urlRoutes";
 import authRouter from "./routes/userRoutes";
 import swaggerUi from 'swagger-ui-express';
-import { readFile } from 'fs/promises';
 import './database/mongoDB';
 import './authConfig/config';
 const swaggerDocument  = require('../swagger.json');
