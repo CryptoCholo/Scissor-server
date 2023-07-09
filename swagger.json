@@ -1,0 +1,333 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "description": "defaultDescription",
+      "version": "0.1",
+      "title": "defaultTitle"
+    },
+    "paths": {
+      "/urls/sjm6E0K4W": {
+        "get": {
+          "produces": [
+            "text/html"
+          ],
+          "parameters": [],
+          "security": [
+            {
+              "Secured": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Definition generated from Swagger Inspector"
+            }
+          }
+        },
+        "delete": {
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "required": false,
+              "schema": {
+                "$ref": "#/definitions/Model1"
+              },
+              "x-examples": {
+                "application/json": "{\"url\":\"https://www.npmjs.com/package/qrcode#tostringtext-options-cberror-string-1\"}"
+              }
+            }
+          ],
+          "security": [
+            {
+              "Secured": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Definition generated from Swagger Inspector",
+              "schema": {
+                "$ref": "#/definitions/Model4"
+              }
+            }
+          }
+        }
+      },
+      "/urls": {
+        "get": {
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [],
+          "security": [
+            {
+              "Secured": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Definition generated from Swagger Inspector",
+              "schema": {
+                "$ref": "#/definitions/Model5"
+              }
+            }
+          }
+        },
+        "post": {
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "required": false,
+              "schema": {
+                "$ref": "#/definitions/Model3"
+              },
+              "x-examples": {
+                "application/json": "{\"url\":\"https://github.com/neilchang01/url-shortener-project/blob/main/server\"}"
+              }
+            }
+          ],
+          "security": [
+            {
+              "Secured": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Definition generated from Swagger Inspector",
+              "schema": {
+                "$ref": "#/definitions/Model6"
+              }
+            }
+          }
+        }
+      },
+      "/auth/{param0}": {
+        "post": {
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "required": false,
+              "schema": {
+                "$ref": "#/definitions/Model2"
+              },
+              "x-examples": {
+                "application/json": "{\"username\": \"DukeofJavascript\", \"password\" :\"987654321987654321\"}"
+              }
+            },
+            {
+              "name": "param0",
+              "in": "path",
+              "description": "Example values form path are: 'login' and 'signup'",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "security": [
+            {
+              "Secured": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Definition generated from Swagger Inspector",
+              "schema": {
+                "$ref": "#/definitions/Model7"
+              }
+            },
+            "201": {
+              "description": "Definition generated from Swagger Inspector",
+              "schema": {
+                "$ref": "#/definitions/Model8"
+              }
+            }
+          }
+        }
+      }
+    },
+    "securityDefinitions": {
+      "Secured": {
+        "type": "oauth2",
+        "authorizationUrl": "https://example.com",
+        "flow": "implicit",
+        "scopes": {}
+      }
+    },
+    "definitions": {
+      "Model0": {
+        "properties": {
+          "fullname": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "Model1": {
+        "properties": {
+          "url": {
+            "type": "string"
+          }
+        }
+      },
+      "Model3": {
+        "properties": {
+          "url": {
+            "type": "string"
+          }
+        }
+      },
+      "Model4": {
+        "properties": {
+          "Url": {
+            "type": "string"
+          }
+        }
+      },
+      "Urls": {
+        "properties": {
+          "_id": {
+            "type": "string"
+          },
+          "full": {
+            "type": "string"
+          },
+          "createdBy": {
+            "type": "string"
+          },
+          "short": {
+            "type": "string"
+          },
+          "qrcode": {
+            "type": "string"
+          },
+          "__v": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "Model5": {
+        "properties": {
+          "urls": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/Urls"
+            }
+          }
+        }
+      },
+      "Url": {
+        "properties": {
+          "full": {
+            "type": "string"
+          },
+          "createdBy": {
+            "type": "string"
+          },
+          "_id": {
+            "type": "string"
+          },
+          "short": {
+            "type": "string"
+          },
+          "qrcode": {
+            "type": "string"
+          },
+          "__v": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "Model6": {
+        "properties": {
+          "url": {
+            "$ref": "#/definitions/Url"
+          }
+        }
+      },
+      "Info": {
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "Model7": {
+        "properties": {
+          "info": {
+            "$ref": "#/definitions/Info"
+          },
+          "token": {
+            "type": "string"
+          }
+        }
+      },
+      "Message": {
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "User": {
+        "properties": {
+          "fullname": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "_id": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          },
+          "__v": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "Model8": {
+        "properties": {
+          "message": {
+            "$ref": "#/definitions/Message"
+          },
+          "user": {
+            "$ref": "#/definitions/User"
+          }
+        }
+      }
+    }
+  }

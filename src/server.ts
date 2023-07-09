@@ -4,15 +4,16 @@ import cookieParser from 'cookie-parser';
 import * as  dotenv from 'dotenv';
 dotenv.config();
 import cors from 'cors';
+import fs from 'fs';
 import limiter from './utils/rateLimiter'
 import urlRouter from "./routes/urlRoutes";
 import authRouter from "./routes/userRoutes";
 import swaggerUi from 'swagger-ui-express';
-// import swaggerDocument from './utils/swagger.json';
-
-
+import { readFile } from 'fs/promises';
 import './database/mongoDB';
 import './authConfig/config';
+const swaggerDocument  = require('../swagger.json');
+
 
 const PORT = Number(process.env.PORT);
 
@@ -37,8 +38,8 @@ app.use(
     })
 );
 app.use(limiter)
-// , swaggerUi.setup(swaggerDocument
-app.use('/api-docs', swaggerUi.serve);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 app.use('/auth', authRouter)
 app.use('/urls', urlRouter);
   
