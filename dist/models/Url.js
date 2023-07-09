@@ -34,10 +34,17 @@ exports.UrlSchema = new mongoose_1.Schema({
         required: true,
         type: String,
     },
+    qrcode: {
+        type: String,
+    },
     short: {
         required: true,
         type: String,
         default: shortid_1.default.generate,
+    },
+    createdBy: {
+        required: true,
+        type: String
     },
 });
 const Url = mongoose_1.default.model("Url", exports.UrlSchema);

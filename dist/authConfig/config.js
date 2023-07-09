@@ -48,11 +48,12 @@ passport_1.default.use(new passport_jwt_1.Strategy({
     jwtFromRequest: passport_jwt_2.ExtractJwt.fromAuthHeaderAsBearerToken()
 }, (token, done) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const id = token.user._id;
+        const id = token.user.id;
         const user = yield User_1.User.findById(id);
         if (!user) {
             return done(null, false, { message: 'User not found' });
         }
+        user.password = undefined;
         return done(null, user, { message: 'Success' });
     }
     catch (error) {
@@ -68,7 +69,7 @@ passport_1.default.use('signup', new passport_local_1.Strategy({
     try {
         const userExists = yield User_1.User.findOne({ username });
         if (!userExists) {
-            const user = yield User_1.User.create({ first_name: info.first_name, last_name: info.last_name, phone: info.phone, username, password });
+            const user = yield User_1.User.create({ fullname: info.fullname, username, password });
             return done(null, user, { message: 'User created successfully' });
         }
         return done(null, false, { message: 'User already exists' });
@@ -92,6 +93,7 @@ passport_1.default.use('login', new passport_local_1.Strategy({
         if (!validate) {
             return done(null, false, { message: 'Wrong Password' });
         }
+        user.password = undefined;
         return done(null, user, { message: 'Logged in Successfully' });
     }
     catch (error) {

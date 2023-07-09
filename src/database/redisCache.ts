@@ -4,12 +4,12 @@ let redisClient : any;
 
 (async () => {
   redisClient = createClient({url: redis_url});
+  await redisClient.connect()
 
   redisClient.on("error", (error: any) => console.error(`Cache ConnectionError : ${error}`));
 
-  await redisClient.connect()
-  
   redisClient.on( 'ready', () => {
+    
     console.log('Cache successfully connected.')
   });
 })();

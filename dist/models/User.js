@@ -38,11 +38,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
+const shortid_1 = __importDefault(require("shortid"));
 const UserSchema = new mongoose_1.Schema({
-    firstname: { type: String },
-    lastname: { type: String },
+    fullname: { type: String },
     username: { type: String },
-    password: { type: String }
+    password: { type: String },
+    id: { type: String, default: shortid_1.default.generate, required: true }
 }, { timestamps: true });
 UserSchema.pre('save', function (next) {
     return __awaiter(this, void 0, void 0, function* () {

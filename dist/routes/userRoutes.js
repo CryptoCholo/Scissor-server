@@ -22,28 +22,14 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const passport_1 = __importDefault(require("passport"));
 const AuthController = __importStar(require("../controllers/userController"));
-// import { signUpValidator, loginValidator } from '../validators/user.validator.js';
+const userValidator_1 = require("../utils/userValidator");
 const authRouter = express_1.default.Router();
-// authRouter.post('/signup', passport.authenticate('signup', { session: false }), AuthController.signup);
-authRouter.post('/login', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    return passport_1.default.authenticate('login', (err, user, info) => {
-        AuthController.login(req, res, { err, user, info });
-    })(req, res, next);
-}));
+authRouter.post('/signup', userValidator_1.signUpValidator, AuthController.signup);
+authRouter.post('/login', userValidator_1.loginValidator, AuthController.login);
 exports.default = authRouter;

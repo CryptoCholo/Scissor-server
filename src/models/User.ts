@@ -1,10 +1,12 @@
 import mongoose, { Schema, Document } from "mongoose";
 import bcrypt from 'bcrypt';
+import shortid from "shortid";
+
 
 interface IUser extends Document {
-    firstname: string;
-    lastname: string;
+    fullname: string;
     username: string;
+    id: String;
     password: any,
     isValidPassword(password: string): Promise<boolean>;
 }
@@ -12,10 +14,10 @@ interface IUser extends Document {
 
 const UserSchema = new Schema(
   {
-    firstname: { type: String },
-    lastname: { type: String },
+    fullname: { type: String },
     username: { type: String },
-    password: { type: String }
+    password: { type: String },
+    id: {type: String, default: shortid.generate, required: true}
   },
   { timestamps: true},
 );

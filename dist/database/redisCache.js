@@ -14,8 +14,8 @@ const redis_url = process.env['REDIS_URL'] || 'redis://redis:6379';
 let redisClient;
 (() => __awaiter(void 0, void 0, void 0, function* () {
     redisClient = (0, redis_1.createClient)({ url: redis_url });
-    redisClient.on("error", (error) => console.error(`Cache ConnectionError : ${error}`));
     yield redisClient.connect();
+    redisClient.on("error", (error) => console.error(`Cache ConnectionError : ${error}`));
     redisClient.on('ready', () => {
         console.log('Cache successfully connected.');
     });

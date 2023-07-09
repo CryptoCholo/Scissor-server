@@ -16,13 +16,15 @@ passport.use(
       },
       async (token, done) => {
           try {
-          const id = token.user._id
-          const user = await User.findById(id);
+          
+          const id = token.user.id
+          const user : IUser = await User.findById(id);
 
           if (!user) {
               return done(null, false, { message: 'User not found' });
           }
-
+          user.password = undefined;
+          
           return done(null, user, { message: 'Success' });
 
           } catch (error) {
@@ -43,13 +45,15 @@ passport.use(
       passReqToCallback: true
     },
     async (req,username, password, done) => {
+      
       let info = req.body
       try {
-        const userExists = await User.findOne({ username });
+        const userExists  : IUser = await User.findOne({ username });
        
         if (!userExists) {
-    
-          const user = await User.create({first_name: info.first_name, last_name: info.last_name, phone: info.phone, username, password });
+
+          const user  : IUser = await User.create({fullname : info.fullname, username, password });
+
           return done(null, user, { message: 'User created successfully'});
         }
 
@@ -81,11 +85,13 @@ passport.use(
             return done(null, false, { message: 'User not found' });
           }
           
-          const validate = await user.isValidPassword(password);
+          const validate : Boolean = await user.isValidPassword(password);
           
           if (!validate) {
             return done(null, false, { message: 'Wrong Password' });
           }
+          user.password = undefined;
+
 
         return done(null, user, { message: 'Logged in Successfully' });
       } catch (error) {

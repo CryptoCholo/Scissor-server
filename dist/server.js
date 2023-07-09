@@ -28,43 +28,49 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const passport_1 = __importDefault(require("passport"));
-const express_session_1 = __importDefault(require("express-session"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const dotenv = __importStar(require("dotenv"));
 dotenv.config();
 const cors_1 = __importDefault(require("cors"));
 const rateLimiter_1 = __importDefault(require("./utils/rateLimiter"));
 const urlRoutes_1 = __importDefault(require("./routes/urlRoutes"));
+const userRoutes_1 = __importDefault(require("./routes/userRoutes"));
+const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
+// import swaggerDocument from './utils/swagger.json';
 require("./database/mongoDB");
-// import './config/passport';
+require("./authConfig/config");
 const PORT = Number(process.env.PORT);
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: false }));
 app.use((0, cookie_parser_1.default)());
 app.use(passport_1.default.initialize());
-app.use(passport_1.default.session());
-app.use((0, express_session_1.default)({
-    secret: process.env.SESSION_KEY,
-    resave: false,
-    saveUninitialized: false,
-}));
-app.use((0, cors_1.default)({
-    origin: [process.env.CLIENT_URL],
-}));
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
     next();
 });
+app.use((0, cors_1.default)({
+    origin: 'https://scissor-client.onrender.com',
+    methods: 'GET, POST',
+    allowedHeaders: 'Content-Type, Authorization',
+}));
 app.use(rateLimiter_1.default);
-app.use(urlRoutes_1.default);
+// , swaggerUi.setup(swaggerDocument
+app.use('/api-docs', swagger_ui_express_1.default.serve);
+app.use('/auth', userRoutes_1.default);
+app.use('/urls', urlRoutes_1.default);
+app.get("/", (req, res, next) => {
+    res.json({ Msg: "Welcome to Scissor URL shortener" });
+});
+app.use((req, res, next) => {
+    res.status(404).json({
+        message: "Sorry, the requested route does not exist!"
+    });
+    next();
+});
 app.use((err, req, res, next) => {
     res.status(500).json({ message: err.message });
-});
-// Add your authentication routes  
-app.get("/", (req, res, next) => {
-    res.json({ hi: "There" });
 });
 app.listen(PORT, () => {
     console.log(`your application is running on ${process.env.HOST}:${process.env.PORT}`);

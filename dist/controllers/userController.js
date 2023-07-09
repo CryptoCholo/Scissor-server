@@ -38,33 +38,39 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.login = exports.signup = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const dotenv = __importStar(require("dotenv"));
+const passport_1 = __importDefault(require("passport"));
 dotenv.config();
-const signup = (req, res, { err, user, info }) => __awaiter(void 0, void 0, void 0, function* () {
-    if (err)
-        return res.status(400).error(err);
-    if (!user) {
-        return res.status(400).json({ message: info });
-    }
-    user.password = undefined;
-    return res.status(201).json({
-        message: info,
-        user: user
-    });
+const signup = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    passport_1.default.authenticate("signup", (err, user, info) => {
+        if (err) {
+            return next(err);
+        }
+        if (!user) {
+            return res.status(400).json({ message: info });
+        }
+        user.password = undefined;
+        return res.status(201).json({
+            message: info,
+            user: user,
+        });
+    })(req, res, next);
 });
 exports.signup = signup;
-const login = (req, res, { err, user, info }) => {
-    if (err) {
-        return res.status(400).error(err);
-    }
-    if (!user) {
-        return res.json({ message: 'Username or password is incorrect' });
-    }
-    req.login(user, { session: false }, (error) => __awaiter(void 0, void 0, void 0, function* () {
-        if (error)
-            return res.status(400).json(error);
-        const body = { _id: user._id, username: user.username };
-        const token = jsonwebtoken_1.default.sign({ user: body }, process.env.JWT_SECRET, { expiresIn: '1h' });
-        return res.status(200).json({ info, token });
-    }));
+const login = (req, res, next) => {
+    passport_1.default.authenticate("login", (err, user, info) => {
+        if (err) {
+            return next(err);
+        }
+        if (!user) {
+            return res.status(404).redirect("/login");
+        }
+        req.login(user, { session: false }, (error) => __awaiter(void 0, void 0, void 0, function* () {
+            if (error)
+                return res.status(400).json(error);
+            const body = { id: user._id, username: user.username };
+            const token = jsonwebtoken_1.default.sign({ user: body }, process.env.JWT_SECRET, { expiresIn: '1h' });
+            return res.status(200).json({ info, token });
+        }));
+    })(req, res, next);
 };
 exports.login = login;
