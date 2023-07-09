@@ -51,7 +51,7 @@ app.use(function (req, res, next) {
     next();
 });
 app.use((0, cors_1.default)({
-    origin: 'https://scissor-client.onrender.com',
+    origin: ['https://scissor-client.onrender.com', 'http://localhost:5173'],
     methods: 'GET, POST',
     allowedHeaders: 'Content-Type, Authorization',
 }));
