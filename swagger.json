@@ -1,9 +1,9 @@
 {
     "swagger": "2.0",
     "info": {
-      "description": "defaultDescription",
+      "description": "An Api to generate short URLs",
       "version": "0.1",
-      "title": "defaultTitle"
+      "title": "Cezor-Api"
     },
     "paths": {
       "/urls/sjm6E0K4W": {
