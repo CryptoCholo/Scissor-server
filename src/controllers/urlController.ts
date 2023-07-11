@@ -14,7 +14,7 @@ export const create: RequestHandler = async (req: Request, res: Response, next: 
     let user  = req.user as IUser;
     let userId = user._id;
 
-    const existing = await Url.findOne({ full: reqUrl, createdBy: userId }).lean();
+    const existing = await Url.find({ full: reqUrl, createdBy: userId }).lean();
     if (existing) {
       return res.status(400).json({ msg: "Url already exists" });
     }
