@@ -22,6 +22,7 @@ const signUpSchema = joi_1.default.object({
     password: joi_1.default.string()
         .min(8).required()
         .messages(exceptionMessages),
+    cpassword: joi_1.default.any().valid(joi_1.default.ref('password')).required().messages(exceptionMessages),
 });
 function signUpValidator(req, res, next) {
     const { error } = signUpSchema.validate(req.body);

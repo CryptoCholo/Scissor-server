@@ -20,6 +20,7 @@ const signUpSchema = Joi.object({
   password: Joi.string()
     .min(8).required()
     .messages(exceptionMessages),
+    cpassword: Joi.any().valid(Joi.ref('password')).required().messages(exceptionMessages),
 });
 
 function signUpValidator(req:Request, res:Response, next: NextFunction) {
