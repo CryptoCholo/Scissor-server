@@ -67,6 +67,9 @@ passport_1.default.use('signup', new passport_local_1.Strategy({
 }, (req, username, password, done) => __awaiter(void 0, void 0, void 0, function* () {
     let info = req.body;
     try {
+        if (!info.password === info.cpassword) {
+            return done(null, false, { message: 'Password confirmation does not match' });
+        }
         const userExists = yield User_1.User.findOne({ username });
         if (!userExists) {
             const user = yield User_1.User.create({ fullname: info.fullname, username, password });

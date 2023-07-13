@@ -48,6 +48,9 @@ passport.use(
       
       let info = req.body
       try {
+        if (!info.password === info.cpassword) {
+          return done(null, false, { message: 'Password confirmation does not match'});
+      }
         const userExists  : IUser = await User.findOne({ username });
        
         if (!userExists) {
