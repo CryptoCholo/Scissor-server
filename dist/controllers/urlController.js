@@ -22,8 +22,9 @@ const create = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
         const reqUrl = req.body.url;
         let user = req.user;
         let userId = user._id;
-        const existing = yield Url_1.default.find({ full: reqUrl, createdBy: userId }).lean();
+        const existing = yield Url_1.default.findOne({ full: reqUrl, createdBy: userId }).lean();
         if (existing) {
+            console.log(existing);
             return res.status(400).json({ msg: "Url already exists" });
         }
         if ((0, validateUrl_1.default)(reqUrl)) {
