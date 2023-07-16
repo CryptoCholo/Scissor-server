@@ -5,7 +5,6 @@ import { IUser } from "../models/User";
 import redisClient from "../database/redisCache";
 import validateUrl from "../utils/validateUrl";
 import QRCode from 'qrcode';
-import { array } from "joi";
 
 
 export const create: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
@@ -16,21 +15,17 @@ export const create: RequestHandler = async (req: Request, res: Response, next: 
 
     const existing = await Url.findOne({ full: reqUrl, createdBy: userId }).lean();
     if (existing) {
-      console.log(existing)
       return res.status(400).json({ msg: "Url already exists" });
     }
+
     if (validateUrl(reqUrl)) {
-        
       const url: IUrl = new Url({
         full: reqUrl,
         createdBy: userId
       });
-     
-    QRCode.toString(url.short, function (err : Error, code: string) {  
-      url.qrcode  =  JSON.stringify(code);
-  }) 
-      const savedUrl = await url.save();
-  
+
+    const savedUrl = await url.save();
+
       res.status(200).json({ url: savedUrl });
     } else {
       res.status(404).json({ error: "invalid URL format" });
@@ -74,7 +69,7 @@ export const getUrls: RequestHandler = async (req: Request, res: Response, next:
     
       const url = await Url.find({ createdBy: userId});
 
-      if (url.length > 0) {
+      if (url.length > 0) {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
         res.status(200).json({urls: url});
       } else {
         res.status(404).json({ error: "No Url Exists for this user" });

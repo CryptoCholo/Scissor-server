@@ -16,7 +16,6 @@ exports.deleteUrl = exports.getUrls = exports.redirect = exports.create = void 0
 const Url_1 = __importDefault(require("../models/Url"));
 const redisCache_1 = __importDefault(require("../database/redisCache"));
 const validateUrl_1 = __importDefault(require("../utils/validateUrl"));
-const qrcode_1 = __importDefault(require("qrcode"));
 const create = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const reqUrl = req.body.url;
@@ -24,16 +23,12 @@ const create = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
         let userId = user._id;
         const existing = yield Url_1.default.findOne({ full: reqUrl, createdBy: userId }).lean();
         if (existing) {
-            console.log(existing);
             return res.status(400).json({ msg: "Url already exists" });
         }
         if ((0, validateUrl_1.default)(reqUrl)) {
             const url = new Url_1.default({
                 full: reqUrl,
                 createdBy: userId
-            });
-            qrcode_1.default.toString(url.short, function (err, code) {
-                url.qrcode = JSON.stringify(code);
             });
             const savedUrl = yield url.save();
             res.status(200).json({ url: savedUrl });

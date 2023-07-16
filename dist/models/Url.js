@@ -22,6 +22,15 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -29,6 +38,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UrlSchema = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
 const shortid_1 = __importDefault(require("shortid"));
+const qrcode_1 = __importDefault(require("qrcode"));
 exports.UrlSchema = new mongoose_1.Schema({
     full: {
         required: true,
@@ -46,6 +56,19 @@ exports.UrlSchema = new mongoose_1.Schema({
         required: true,
         type: String
     },
+});
+exports.UrlSchema.pre('save', function (next) {
+    return __awaiter(this, void 0, void 0, function* () {
+        qrcode_1.default.toString(this.short, (err, code) => {
+            if (err) {
+                // Handle the error
+                return next(err);
+            }
+            console.log(code);
+            this.qrcode = JSON.stringify(code);
+            next();
+        });
+    });
 });
 const Url = mongoose_1.default.model("Url", exports.UrlSchema);
 exports.default = Url;
