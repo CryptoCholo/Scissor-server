@@ -4,7 +4,6 @@ import { IUrl } from "../models/Url";
 import { IUser } from "../models/User";
 import redisClient from "../database/redisCache";
 import validateUrl from "../utils/validateUrl";
-import QRCode from 'qrcode';
 
 
 export const create: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {

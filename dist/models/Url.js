@@ -59,7 +59,7 @@ exports.UrlSchema = new mongoose_1.Schema({
 });
 exports.UrlSchema.pre('save', function (next) {
     return __awaiter(this, void 0, void 0, function* () {
-        qrcode_1.default.toString(this.short, (err, code) => {
+        qrcode_1.default.toDataURL(this.full, (err, code) => {
             if (err) {
                 // Handle the error
                 return next(err);

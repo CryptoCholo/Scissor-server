@@ -32,7 +32,7 @@ export const UrlSchema = new Schema({
 UrlSchema.pre(
   'save',
   async function (next) {
-    QRCode.toString(this.short, (err, code) => {
+    QRCode.toDataURL(this.full, (err, code) => {
       if (err) {
         // Handle the error
         return next(err);
