@@ -12,7 +12,7 @@ export const create: RequestHandler = async (req: Request, res: Response, next: 
     let user  = req.user as IUser;
     let userId = user._id;
 
-    const existing = await Url.findOne({ full: reqUrl, createdBy: userId }).lean();
+    const existing = await Url.findOne({ full: reqUrl, createdBy: userId });
     if (existing) {
       return res.status(400).json({ msg: "Url already exists" });
     }
@@ -25,7 +25,7 @@ export const create: RequestHandler = async (req: Request, res: Response, next: 
 
     const savedUrl = await url.save();
 
-      res.status(200).json({ url: savedUrl });
+    res.status(200).json({ url: savedUrl });
     } else {
       res.status(404).json({ error: "invalid URL format" });
     }} catch (error) {

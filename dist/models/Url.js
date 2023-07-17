@@ -59,13 +59,13 @@ exports.UrlSchema = new mongoose_1.Schema({
 });
 exports.UrlSchema.pre('save', function (next) {
     return __awaiter(this, void 0, void 0, function* () {
-        qrcode_1.default.toDataURL(this.full, (err, code) => {
+        let url = this;
+        qrcode_1.default.toDataURL(url.full, (err, code) => {
             if (err) {
                 // Handle the error
                 return next(err);
             }
-            console.log(code);
-            this.qrcode = JSON.stringify(code);
+            url.qrcode = code;
             next();
         });
     });

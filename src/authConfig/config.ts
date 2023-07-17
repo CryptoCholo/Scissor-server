@@ -28,6 +28,7 @@ passport.use(
           return done(null, user, { message: 'Success' });
 
           } catch (error) {
+            console.log(error)
               done(error);
           }
       }   

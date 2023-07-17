@@ -57,6 +57,7 @@ passport_1.default.use(new passport_jwt_1.Strategy({
         return done(null, user, { message: 'Success' });
     }
     catch (error) {
+        console.log(error);
         done(error);
     }
 })));
