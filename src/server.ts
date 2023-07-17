@@ -48,12 +48,11 @@ app.get("/", (req: Request, res: Response, next: NextFunction) => {
   res.json({ Msg: "Welcome to Scissor URL shortener" });
 });
 
-app.use((req: Request, res: Response, next: NextFunction) => {
-    res.status(404).json({
-        message: "Sorry, the requested route does not exist!"
-    })
-    next()
+
+app.get('*', function(req: Request, res: Response, next: NextFunction) {
+  res.sendFile(__dirname+'/dist/index.html');
 })
+
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     res.status(500).json({ message: err.message });

@@ -14,9 +14,8 @@ const signUpSchema = Joi.object({
   fullname: Joi.string()
     .min(3).max(40).required()
     .messages(exceptionMessages),
-  username: Joi.string()
-    .min(3).max(20).required()
-    .messages(exceptionMessages),
+    username: Joi.string()
+    .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }).required().messages(exceptionMessages),
   password: Joi.string()
     .min(8).required()
     .messages(exceptionMessages),
